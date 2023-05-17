@@ -1,12 +1,18 @@
 #include <poppler.h>
 #include <stdio.h>
 
-int main() {
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s filename\n", argv[0]);
+        return 1;
+    }
+
     PopplerDocument *doc;
     GError *err = NULL;
-gchar *absolute_file_name = "file:///home/garrettstephens/pdf_project/641.pdf";
+    gchar *absolute_file_name = g_strdup_printf("file://%s", argv[1]);
 
     doc = poppler_document_new_from_file (absolute_file_name, NULL, &err);
+    g_free(absolute_file_name);
     if (doc == NULL) {
         g_print ("Could not create PopplerDocument\n");
         if (err != NULL) {

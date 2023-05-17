@@ -11,7 +11,7 @@ def upload_file():
         if file:
             filename = 'uploaded_file.pdf'
             file.save(filename)
-            process = subprocess.run(['./pdf_reader'], stdout=subprocess.PIPE)
+            process = subprocess.run(['./pdf_reader', os.path.abspath(filename)], stdout=subprocess.PIPE)
             output = process.stdout.decode()
             os.remove(filename)
             return render_template('display.html', text=output)
